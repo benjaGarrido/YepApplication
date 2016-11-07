@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="es.yepwarriors.yepwarriors" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Añadimos un nuevo permiso para poder escribir/leer en la memoria externa -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- Añadimos los nuevos permisos para las notificaciones push -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Establecemos una nueva caracteristica que es poder acceder a la camara -->
+    <uses-feature android:name="android.hardware.camera" />
+
+    <permission
+        android:name="es.yepwarriors.yepwarriors.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.parse.tutorials.pushnotifications.permission.C2D_MESSAGE" />
+
+    <application
+        android:name=".YepApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <!-- Establecemos las actividades que componen nuestra aplicación para que puedan ser llamadas -->
+        <!-- ************** -->
+        <!-- Actividad Main -->
+        <!-- ************** -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name"
+            android:logo="@drawable/ic_launcher" >
+
+            <!-- El filtro que añadimos a continuación es necesario para identificar que esta será la primera actividad que lanzaremos -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- *************** -->
+        <!-- Actividad Login -->
+        <!-- *************** -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
+        <!-- **************** -->
+        <!-- Actividad SignUp -->
+        <!-- **************** -->
+        <activity
+            android:name=".ui.SignUpActivity"
+            android:label="@string/title_activity_signup"
+            android:parentActivityName=".ui.LoginActivity"
+            android:screenOrientation="portrait" />
+        <!-- ********************* -->
+        <!-- Actividad EditFriends -->
+        <!-- ********************* -->
+        <activity
+            android:name=".ui.EditFriendsActivity"
+            android:label="@string/title_activity_editaramigos"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.yepwarriors.yepwarriors.ui.MainActivity" />
+        </activity>
+        <!-- ******************** -->
+        <!-- Actividad Recipients -->
+        <!-- ******************** -->
+        <activity
+            android:name=".ui.RecipientsActivity"
+            android:label="@string/title_activity_activity_recipients"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.yepwarriors.yepwarriors.ui.MainActivity" />
+        </activity>
+        <!-- ******************* -->
+        <!-- Actividad ViewImage -->
+        <!-- ******************* -->
+        <activity
+            android:name=".ui.ViewImageActivity"
+            android:label="@string/title_activity_show_image"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.yepwarriors.yepwarriors.ui.MainActivity" />
+        </activity>
+        <!-- ************************************************************ -->
+        <!-- Incluimos el servicio necesario para las notificaciones PUSH -->
+        <!-- ************************************************************ -->
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="es.yepwarriors.yepwarriors" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".ui.EditCurrentUserActivity"
+            android:label="@string/title_activity_edit_current_user"
+            android:parentActivityName=".ui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="es.yepwarriors.yepwarriors.ui.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>
